@@ -164,11 +164,16 @@ func (y *Yaml) GetMapKeys() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	keys := make([]string, 0)
+	keys := make([]string, 0, len(m))
 	for k, _ := range m {
 		if s, ok := k.(string); ok {
 			keys = append(keys, s)
 		}
 	}
 	return keys, nil
+}
+
+func (y *Yaml) Unmarshal(out interface{}) error {
+	item, _ := yaml.Marshal(y.data)
+	return yaml.Unmarshal(item, out)
 }
